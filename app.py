@@ -23,7 +23,7 @@ from langchain.document_loaders import Docx2txtLoader
 import streamlit as st
 from streamlit_chat import message
 import streamlit.components.v1 as components
-from pyngrok import ngrok
+
 
 
 
