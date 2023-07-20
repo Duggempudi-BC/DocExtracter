@@ -16,4 +16,5 @@ torch
 streamlit
 streamlit-chat
 textract
+openai
 
