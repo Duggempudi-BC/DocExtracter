@@ -23,6 +23,7 @@ from langchain.document_loaders import Docx2txtLoader
 import streamlit as st
 from streamlit_chat import message
 import streamlit.components.v1 as components
+from pyngrok import ngrok
 
 
 
@@ -30,45 +31,45 @@ import streamlit.components.v1 as components
 
 
 #extract text from the files
-textra = textract.process("data/demo.pdf").decode('utf-8').strip()
+# textra = textract.process("data/demo.pdf").decode('utf-8').strip()
 
 
 
-#funtion to chunk the file 
-def chunk_token_splitter(text):
-    # the Token text Splitter
-    from langchain.text_splitter import TokenTextSplitter
-    text_splitter = TokenTextSplitter(chunk_size=50, 
-                                    chunk_overlap=0)
-    chunks = text_splitter.split_text(text)
-    return chunks, len(chunks)
+# #funtion to chunk the file 
+# def chunk_token_splitter(text):
+#     # the Token text Splitter
+#     from langchain.text_splitter import TokenTextSplitter
+#     text_splitter = TokenTextSplitter(chunk_size=50, 
+#                                     chunk_overlap=0)
+#     chunks = text_splitter.split_text(text)
+#     return chunks, len(chunks)
 
 
 
-if __name__ == '__main__':
-    # create a pdf file object
-    pdfFileObj1 = open('data/demo.pdf', 'rb')
-    # pdfFileObj2 = open('pdf docs/class_12_physics/leph201.pdf', 'rb')
-    # pdfFileObj3 = open('pdf docs/class_12_physics/leph202.pdf', 'rb')
-    # pdfFileObj4 = open('pdf docs/class_12_physics/leph203.pdf', 'rb')
-    # pdfFileObj5 = open('pdf docs/class_12_physics/leph204.pdf', 'rb')
-    # pdfFileObj6 = open('pdf docs/class_12_physics/leph205.pdf', 'rb')
-    # pdfFileObj7 = open('pdf docs/class_12_physics/leph206.pdf', 'rb')
+# if __name__ == '__main__':
+#     # create a pdf file object
+#     pdfFileObj1 = open('data/demo.pdf', 'rb')
+#     # pdfFileObj2 = open('pdf docs/class_12_physics/leph201.pdf', 'rb')
+#     # pdfFileObj3 = open('pdf docs/class_12_physics/leph202.pdf', 'rb')
+#     # pdfFileObj4 = open('pdf docs/class_12_physics/leph203.pdf', 'rb')
+#     # pdfFileObj5 = open('pdf docs/class_12_physics/leph204.pdf', 'rb')
+#     # pdfFileObj6 = open('pdf docs/class_12_physics/leph205.pdf', 'rb')
+#     # pdfFileObj7 = open('pdf docs/class_12_physics/leph206.pdf', 'rb')
 
-    #pass in text from pdf to get text
-    all_pdf_content = textra
+#     #pass in text from pdf to get text
+#     all_pdf_content = textra
 
-    #Split into tokens
-    chunked_pdf_content = chunk_token_splitter(all_pdf_content)[0]
+#     #Split into tokens
+#     chunked_pdf_content = chunk_token_splitter(all_pdf_content)[0]
 
 
-    pdfFileObj1.close()
-    # pdfFileObj2.close()
-    # pdfFileObj3.close()
-    # pdfFileObj4.close()
-    # pdfFileObj5.close()
-    # pdfFileObj6.close()
-    # pdfFileObj7.close() 
+#     pdfFileObj1.close()
+#     # pdfFileObj2.close()
+#     # pdfFileObj3.close()
+#     # pdfFileObj4.close()
+#     # pdfFileObj5.close()
+#     # pdfFileObj6.close()
+#     # pdfFileObj7.close() 
     
 
 
