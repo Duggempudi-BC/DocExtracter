@@ -142,11 +142,10 @@ def query_user_data(query):
 
 
 #funtion to get the response for user query 
-def send_message(message , conversations , conversation2):
+def send_message(message , conversations):
     
 
     conversations.append({'role':'user', 'content':f"{message}"})
-    conversations2.append({'role':'user', 'content':f"{message}"})
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -160,8 +159,7 @@ def send_message(message , conversations , conversation2):
         conversations.pop(2)
         
     reply = response.choices[0].message.content
-    conversations.append({'role':'assistant', 'content':f"{reply}"})
-    conversations2.append({'role':'assistant', 'content':f"{reply}"})
+    conversations.append({'role':'user', 'content':f"{reply}"})
     
     return reply
 
@@ -177,6 +175,8 @@ if 'generated' not in st.session_state:
 if 'past' not in st.session_state:
     st.session_state['past'] = []
 
+
+
 response_container = st.container()
 
 textcontainer = st.container()
@@ -191,97 +191,39 @@ with textcontainer:
     user_input = get_text()
 
 
-
-
 if user_input:
     test = query_user_data(user_input)
-
 else:
     test=''
 conversations = [{'role':'system', 'content':f"""
-                 
-        You are a HR bot and your are trained on topics like Lorentz LAW, Magnetic field , Angular Momentum , Rolling Motion 
-                    
-        If I ask you to tell about your capabilities then reply with  the topics you can help me with.            
-        First you Greet me.
-                        
+                  
+First you Greet me
+You first task is to analyse whether the given below CONTEXT is empty or not 
+if it is empty then strictly reply "Sorry , I don't have the information realted your query ! "
 
-                        
-        You first task is to analyse whether the given below CONTEXT is empty or not 
-        if it is empty then strictly reply "Sorry , I don't have the information realted your query ! "
+CONTEXT = {test}
 
-        CONTEXT = {test}
+Dont use your own knowledge to answer the question stricly follow the CONTEXT only
+Summarize and Give answer based on the question strictly from the CONTEXT given below
 
-        Dont use your own knowledge to answer the question stricly follow the CONTEXT only
-        Summarize and Give answer based on the question strictly from the CONTEXT given below
-
-        Question= {user_input}
-        CONTEXT = {test}
+Question= {user_input}
+CONTEXT = {test}
 
 
 
 
-        your response should be polite, neat and friendly
+your response should be polite, neat and friendly
 
-        """} ]
-
-conversations2 = [{'role':'system', 'content':f""" 
-                        You are a Physics tutor and you must answer questions realted to Physics ONLY.
-                        your answer should be precise and small.Also check for the conversation history.
-
-                        QUESTION asked by me : {user_input}
-
-                        Analyse whether the QUESTION asked by is realted to physics or not and if it is out of physics topics reply that you dont have that expertise to answer in a polite tone.
-                        
-                        
-                            """}]
-
-if test == '':
-    conversations = conversations2
-else:
-    conversations = conversations
-
-        
-
-# else:
-#     test=''
-#     conversations = [{'role':'system', 'content':f"""
-                    
-#     You are a HR bot and your are trained on topics like Lorentz LAW, Magnetic field , Angular Momentum , Rolling Motion 
-                
-#     If I ask you to tell about your capabilities then reply with  the topics you can help me with.            
-#     First you Greet me.
-                    
-
-                    
-#     You first task is to analyse whether the given below CONTEXT is empty or not 
-#     if it is empty then strictly reply "Sorry , I don't have the information realted your query ! "
-
-#     CONTEXT = {test}
-
-#     Dont use your own knowledge to answer the question stricly follow the CONTEXT only
-#     Summarize and Give answer based on the question strictly from the CONTEXT given below
-
-#     Question= {user_input}
-#     CONTEXT = {test}
-
-
-
-
-#     your response should be polite, neat and friendly
-
-#     """} ]
+"""} ]
 
 
 
 with response_container:
 
     if user_input:
-        output = send_message(user_input , conversations , conversations2)
+        output = send_message(user_input , conversations)
         st.session_state.past.append(user_input)
         st.session_state.generated.append(output)
-        print(conversations2)
-        print(conversations)
 
     if st.session_state['generated']:
 
